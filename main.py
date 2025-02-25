@@ -22,7 +22,10 @@ post = Post("Это пример поста.")
 post.upvote()  # Голосование за пост
 post.upvote()  # Еще одно голосование
 post.upvote()  # Еще одно голосование
-post.upvote()  # Еще одно голосование233543534
+post.upvote()
+post.upvote()  
+post.upvote()
+
 
 post.downvote()  # Голосование против поста
 post.downvote()  # Голосование против поста
