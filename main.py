@@ -1,39 +1,39 @@
-# Напиши класс, что ничего не принимает при инициализации, но создает атррибут класса _data(хай будет список). У класса должны быть следующие методы:
-#     - add, который принимает value и добавляет его в конец _data, а конце метода принтит _data.
-#         - если value уже есть в _data - рейзит ошибку что такое уже добавлено.
-#     - remove, который принимает индекс элемента и удаляет его из списка по индексу, а конце метода принтит _data.
-#         - если список _data пустой - рейзит ошибку что нельзя ничего удалить из пустого _data.
-#     - do_print, который ничего не принимает, а просто в цикле принтит "индекс_элемента_в_списке: сам_элемент'
-#         - если список _data пустой - рейзит ошибку что нельзя ничего принануть, бо список пустой.
-# Инициализируй класс, а потом поиграйся с ним, повызывай методы, посмотри что будет и как работают.
+with open('passwords.txt', 'r', encoding='utf-8') as file:
+    passwords = [line.strip() for line in file]
+
+used_passwords = []
+
+class User:
+
+    def __init__(self, login, password):
+        self.login = login
+        self.__password = password
+
+    @property
+    def password(self):
+        return self.__password
+
+    @password.setter
+    def password(self, value):
+        if not isinstance(value, str):
+            raise TypeError("Пароль должен быть строкой")
+        if len(value) < 4:
+            raise ValueError("Длина пароля слишком мала, минимум должно быть 4 символа")
+        if len(value) > 12:
+            raise ValueError("Длина пароля слишком велика, максимум должно быть 12 символов")
+        try:
+            if value in passwords:
+                raise ValueError("Это слишком лёгкий пароль")
+        except ValueError as e:
+            print(e)
+
+        self.__password = value
+        used_passwords.append(value)
 
 
-class EmailSender:
-    def __init__(self):
-        self.data = []
+r = User('aaa', 123)
 
-    def add(self, value):
-        if value in self.data:
-            raise ValueError('Такое значение уже добавлено')
-        self.data.append(value)
-        print(self.data)
+new_password = input("Введите пароль: ")
 
-    def remove(self, index):
-        if not self.data:
-            raise ValueError("Нельзя ничего удалить из пустого data")
-        del self.data[index]
-        print(self.data)
-
-    def do_print(self):
-        if not self.data:
-            raise ValueError('Список пустой')
-        for index, elem in enumerate(self.data):
-            print(index, elem)
-
-
-email_send = EmailSender()
-
-email_send.do_print()
-
-#     - do_print, который ничего не принимает, а просто в цикле принтит "индекс_элемента_в_списке: сам_элемент'
-#         - если список _data пустой - рейзит ошибку что нельзя ничего принануть, бо список пустой.
+r.password = new_password
+print(used_passwords)
