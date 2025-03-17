@@ -1,16 +1,52 @@
-class BankAccount:
-    def __init__(self, name, balance):
-        self.name = name
-        self.balance = balance
+class BaseMailSender:
+    def __init__(self, user_id, subscription_type):
+        self.user_id = user_id
+        self.subscription_type = subscription_type
 
-    def __add__(self, other):
-        print('__add__ call')
-        if isinstance(other, (int, float)):
-            return self.name - other
+    def create_message(self):
+        raise NotImplementedError
+
+    def send_message(self):
+        print(self.create_message())
 
 
-account = BankAccount(50, 100)
+class FreeUserMailSender(BaseMailSender):
+    def create_message(self):
+        return f"name: {self.user_id}, Free: {self.subscription_type}"
 
-new = account + 500
 
-print(new)
+class PremiumUserMailSender(BaseMailSender):
+    def create_message(self):
+        return f"name: {self.user_id}, Premium: {self.subscription_type}"
+
+
+free = FreeUserMailSender('Ihor', 'Basic')
+premium = PremiumUserMailSender('Ivan', 'Pro')
+
+free.send_message()
+premium.send_message()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
