@@ -1,100 +1,23 @@
-data = {
-    1: {
-        'inner_field': {
-            'inner_inner_field': {
-                'user_status': 'Basic',
-                'some_info': 'some_info_str',
-            },
-            'some_another_inner_field': 'some_str',
-        },
-        'some_inner_field': [1, 2, 3],
-    },
-    2: {
-        'inner_field': {
-            'inner_inner_field': {
-                'user_status': 'Premium',
-                'some_info': 'some_info_str',
-            },
-            'some_another_inner_field': 'some_str',
-        },
-        'some_inner_field': [4, 5, 6],
-    },
-}
+class CreateMessageMixin:
+    def create_message(self):
+        return f"Возвращает сообщение"
 
 
-class Profile:
-    def __init__(self, user_id, data):
+class ValidateUserMixin:
+    ALLOW_USERS = [1, 2, 3]
+    def validate_user(self, user_id):
+        if user_id not in self.ALLOW_USERS:
+            raise ValueError("юзер айди нету в списке разрешенных юзеров")
+
+
+class MailSender(CreateMessageMixin, ValidateUserMixin):
+    def __init__(self, user_id):
+        self.validate_user(user_id)
         self.user_id = user_id
-        self.data = data
-        self._cache = {}
 
-    @property
-    def status(self):
-        if self.user_id in self._cache:
-            return self._cache[self.user_id]
-        else:
-            status = self.data[self.user_id]['inner_field']['inner_inner_field']['user_status']
-            self._cache[self.user_id] = status
-            return status
+    def send_message(self):
+        print(self.create_message())
 
 
-profile = Profile(2, data)
-print(profile.status)
-
-profile1 = Profile(1, data)
-print(profile1.status)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+sender = MailSender(3)
+sender.send_message()
