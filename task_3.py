@@ -28,6 +28,7 @@ class Profile:
         self.data = data
         self._cache = {}
 
+    @property
     def status(self):
         if self.user_id in self._cache:
             return self._cache[self.user_id]
@@ -38,10 +39,10 @@ class Profile:
 
 
 profile = Profile(2, data)
-print(profile.status())
+print(profile.status)
 
 profile1 = Profile(1, data)
-print(profile1.status())
+print(profile1.status)
 
 
 
